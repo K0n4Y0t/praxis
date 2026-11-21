@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.output/
+.nitro/
+.tanstack/
+.vercel/
+.grok/
+artifacts/
+screenshots/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+coverage/
+*.tsbuildinfo
