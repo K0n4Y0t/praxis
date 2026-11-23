@@ -145,7 +145,7 @@ export function semesterAssessment(semesterId: number, data: ProgressData): { pa
       label: "โครงงาน",
       weight: 30,
       score: projectScore,
-      note: "เป็นการติ๊กด้วยตัวเองว่าทำครบเกณฑ์แล้ว ไม่ใช่คะแนนจากผู้ตรวจ",
+      note: "หลักไมล์เป็นการติ๊กเองว่างานบนเครื่องคุณทำแล้ว ฟังก์ชันแกนที่ตัวตรวจรันอยู่ในช่องงานโปรแกรม",
     },
     {
       key: "debug",

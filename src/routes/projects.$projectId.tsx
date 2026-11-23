@@ -49,7 +49,8 @@ function ProjectPage() {
       <Block title="คำถามปิดงาน" items={project.review} />
       {project.lab ? (
         <section className="grid gap-3">
-          <h2 className="text-2xl font-semibold">ตัวตรวจของฟังก์ชันแกน</h2>
+          <h2 className="text-2xl font-semibold">ฟังก์ชันแกนที่ตัวตรวจรัน</h2>
+          <p className="text-sm text-muted">นี่คือกติกาที่ตรวจได้ในหน้า งานที่ต้องใช้เครื่องจริงยังอยู่ที่หลักไมล์ด้านบน และไม่ถูกนับว่าทำแล้วเพียงเพราะเทสต์นี้ผ่าน</p>
           <p>{project.lab.prompt}</p>
           <Runner
             initial={project.lab.starter}

@@ -14,7 +14,7 @@ Shipped and usable:
 - Twelve semesters, 127 lessons. Each lesson has objectives, prerequisites, a Thai concept explanation, an editable example, checks that do not reveal the answer immediately, a lab with automated tests, a summary, vocabulary, pitfalls, and a completion rule
 - In-browser Python subset runner: syntax highlighting, run, reset, stdin, stdout, step limit, no `import`, no filesystem, no server-side `eval`. Errors are explained from the real error name
 - Practice set for every semester: debug, predict-the-output, find-the-bug, reverse, and design. Five hint levels. Seeing the full solution caps mastery
-- Twelve semester projects. Semester 1 grades a `balance` function. Later projects are milestone checklists the learner marks themselves
+- Twelve semester projects. Each one grades a core function in the browser. Milestones for work that has to happen on your own machine stay self-attested, and passing the core does not tick them
 - One theory exam per semester, plus a weighted score that ignores parts the learner has not started
 - Notebook, glossary from opened lessons, mistake journal, and code snippets
 - Light and dark theme, phone and desktop layout
@@ -50,7 +50,7 @@ These are real gaps. The app does not pretend they exist.
 - No server sandbox, so there is no claim of server-grade isolation
 - No external AI tutor. Hints are written into the lesson
 - No login, no Postgres, no sync across devices. Browser storage is readable by anyone who uses that browser profile. Do not put secrets in the notebook
-- Project points are self-attested ticks, except the semester 1 lab. There is no reviewer and no separate midterm besides the one theory exam per semester
+- Project milestones are self-attested ticks. The core function of every project is graded, but that grade is a Python model, not a real shell, database, or Compose run
 - Home-server packaging is not in this tree: no Compose file, no backup job, no rate limit, no auth
 - Passing a lab means the written tests matched. It does not mean the learner is correct for every case
 

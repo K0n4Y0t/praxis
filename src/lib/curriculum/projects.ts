@@ -84,6 +84,28 @@ export const PROJECTS: Project[] = [
     criteria: ["ไม่มีคำสั่งลบกว้าง ๆ", "ชื่อคำสั่งย่อยสื่อความหมาย", "README บอกวิธีเลิกใช้และข้อจำกัด"],
     docs: ["วิธีติดตั้งเท่ากับคัดลอกไฟล์เดียว", "รายการสิ่งที่สคริปต์ไม่ทำ เช่น ไม่อัปเดตทั้งระบบ"],
     review: ["คำสั่งใดอันตรายที่สุดถ้าใส่เส้นทางผิด", "จะทดสอบโดยไม่แตะข้อมูลจริงได้อย่างไร"],
+    lab: {
+      id: "p2-lab",
+      prompt:
+        "เขียน tool(cmd, exists) เป็นแบบจำลองของสคริปต์ ไม่ได้รันเชลล์จริง status และ mem คืน ok  backup คืน refuse เมื่อ exists เป็น 1 และคืน copied เมื่อ exists เป็น 0 คำสั่งอื่นคืน fail",
+      starter: "def tool(cmd, exists):\n    return \"fail\"\n",
+      tests: [
+        {
+          name: "ไม่ทับของเดิม และคำสั่งที่ไม่รู้จักล้ม",
+          expected: "ok\nrefuse\ncopied\nfail\n",
+          harness: "print(tool(\"status\", 0))\nprint(tool(\"backup\", 1))\nprint(tool(\"backup\", 0))\nprint(tool(\"rm\", 0))\n",
+        },
+      ],
+      hints: [
+        "แยกคำสั่งด้วย if ไม่ต้องเรียกโปรแกรมนอก",
+        "status กับ mem ให้ผลเดียวกัน",
+        "backup ดู exists ก่อน ถ้าเป็น 1 ห้ามตอบ copied",
+        "ที่เหลือทั้งหมดคือ fail รวมถึงคำสั่งลบ",
+      ],
+      solution:
+        "def tool(cmd, exists):\n    if cmd == \"status\" or cmd == \"mem\":\n        return \"ok\"\n    if cmd == \"backup\":\n        if exists == 1:\n            return \"refuse\"\n        return \"copied\"\n    return \"fail\"\n",
+      solutionWhy: "แบบจำลองนี้ล็อกกติกาไม่ทับไฟล์เงียบ ๆ กับคำสั่งที่ไม่รู้จัก การรัน df หรือ cp จริงยังเป็นหลักไมล์บนเครื่องคุณ",
+    },
   },
   {
     id: "p3",
@@ -103,6 +125,28 @@ export const PROJECTS: Project[] = [
     criteria: ["ผลลัพธ์ถูกแยกจากภาพ", "ขอบของ binary search มีเทสต์", "คุณอธิบาย Big O ของวิธีที่เลือกเป็นประโยคได้"],
     docs: ["วิธีที่ตั้งใจไม่ทำ เช่น ยังไม่ทำ quicksort", "ข้อมูลตัวอย่างที่ใช้"],
     review: ["ก้าวไหนที่ภาพช่วย และก้าวไหนที่ภาพทำให้เข้าใจผิด"],
+    lab: {
+      id: "p3-lab",
+      prompt:
+        "เขียน binary_search(nums, target) บนลิสต์ที่เรียงแล้ว คืนดัชนีของเป้าหมาย หรือ -1 ถ้าไม่มี ลิสต์ว่างต้องได้ -1 อย่าแก้ลิสต์ต้นฉบับ",
+      starter: "def binary_search(nums, target):\n    return -1\n",
+      tests: [
+        {
+          name: "พบ ไม่พบ และลิสต์ว่าง",
+          expected: "2\n-1\n-1\n",
+          harness: "print(binary_search([1, 3, 5, 7], 5))\nprint(binary_search([1, 3, 5, 7], 4))\nprint(binary_search([], 1))\n",
+        },
+      ],
+      hints: [
+        "เก็บขอบล่างและขอบบน แล้วขยับทีละครึ่ง",
+        "ถ้าค่ากลางน้อยกว่าเป้าหมาย ให้ขยับขอบล่างไปทางขวา",
+        "ถ้ามากกว่า ให้ขยับขอบบนไปทางซ้าย",
+        "เมื่อขอบไขว้กัน แปลว่าไม่พบ คืน -1",
+      ],
+      solution:
+        "def binary_search(nums, target):\n    lo = 0\n    hi = len(nums) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n",
+      solutionWhy: "การค้นแบบทวิภาคใช้ได้เมื่อข้อมูลเรียงแล้วเท่านั้น ภาพทีละก้าวของการเรียงยังเป็นงานที่คุณทำให้เห็นเองนอกตัวตรวจนี้",
+    },
   },
   {
     id: "p4",
@@ -122,6 +166,28 @@ export const PROJECTS: Project[] = [
     criteria: ["ไม่มีสูตรที่คุณแทนค่าไม่เป็น", "ขั้นตอนที่แสดงสัมพันธ์กับผล", "ขอบถูกทดสอบ"],
     docs: ["นิยามที่คุณใช้", "สิ่งที่ยังไม่รองรับ เช่น ความน่าจะเป็นต่อเนื่อง"],
     review: ["ตรงไหนที่คุณยังท่องสูตรโดยอธิบายไม่ได้"],
+    lab: {
+      id: "p4-lab",
+      prompt:
+        "เขียน choose(n, k) สำหรับจำนวนวิธีเลือกแบบไม่สนลำดับ คืน -1 เมื่อ n หรือ k ติดลบ หรือ k มากกว่า n choose(n, 0) และ choose(n, n) เป็น 1 แล้วเขียน overlap(a, b) คืนจำนวนสมาชิกของ a ที่อยู่ใน b",
+      starter: "def choose(n, k):\n    return 0\n\ndef overlap(a, b):\n    return 0\n",
+      tests: [
+        {
+          name: "เลือกและส่วนร่วม",
+          expected: "10\n1\n-1\n1\n",
+          harness: "print(choose(5, 2))\nprint(choose(5, 0))\nprint(choose(-1, 1))\nprint(overlap([1, 2], [2, 3]))\n",
+        },
+      ],
+      hints: [
+        "ตรวจขอบก่อนคำนวณ",
+        "choose(n, 0) จบได้ทันที",
+        "คูณทีละตัวแล้วหารจำนวนที่นับได้ เพื่อไม่ให้ตัวเลขโตเกิน필요",
+        "overlap เดินสมาชิกของ a แล้วนับตัวที่อยู่ใน b",
+      ],
+      solution:
+        "def choose(n, k):\n    if n < 0 or k < 0 or k > n:\n        return -1\n    if k == 0 or k == n:\n        return 1\n    result = 1\n    i = 0\n    while i < k:\n        result = result * (n - i) // (i + 1)\n        i = i + 1\n    return result\n\ndef overlap(a, b):\n    n = 0\n    for x in a:\n        if x in b:\n            n = n + 1\n    return n\n",
+      solutionWhy: "สูตรชุดนี้ใช้กับจำนวนเล็กและตรวจขอบได้ มันไม่ใช่เครื่องคิดความน่าจะเป็นต่อเนื่อง",
+    },
   },
   {
     id: "p5",
@@ -141,6 +207,28 @@ export const PROJECTS: Project[] = [
     criteria: ["กฎสต็อกอยู่ที่เดียว", "ชื่อฟิลด์ตรงความหมายในร้าน", "คุณเดินเทสต์กรณีล้มเหลวให้คนอื่นดูได้"],
     docs: ["กฎธุรกิจสามข้อ", "สิ่งที่ยังไม่ทำ เช่น ผู้ใช้หลายคน"],
     review: ["ถ้าเพิ่มหน่วยนับเป็นชิ้นกับกิโลกรัม แบบปัจจุบันรับได้หรือไม่"],
+    lab: {
+      id: "p5-lab",
+      prompt:
+        "เขียน sell(stock, qty) จ่ายสินค้าได้เมื่อ qty มากกว่า 0 และไม่เกินสต็อก คืนสต็อกที่เหลือ ถ้าจ่ายเกินให้คืนสต็อกเดิมโดยไม่ลด ถ้า qty ไม่เป็นบวกให้คืน -1",
+      starter: "def sell(stock, qty):\n    return stock\n",
+      tests: [
+        {
+          name: "จ่ายได้ พอดี เกิน และจำนวนเสีย",
+          expected: "3\n0\n5\n-1\n",
+          harness: "print(sell(5, 2))\nprint(sell(5, 5))\nprint(sell(5, 6))\nprint(sell(5, 0))\n",
+        },
+      ],
+      hints: [
+        "กฎสต็อกควรอยู่ฟังก์ชันเดียว",
+        "qty ที่ไม่เป็นบวกไม่ใช่การขาย",
+        "จ่ายเกินต้องไม่เปลี่ยนตัวเลขเดิม",
+        "จ่ายพอดีเหลือ 0",
+      ],
+      solution:
+        "def sell(stock, qty):\n    if qty <= 0:\n        return -1\n    if qty > stock:\n        return stock\n    return stock - qty\n",
+      solutionWhy: "ตัวตรวจนี้ล็อกกฎห้ามสต็อกติดลบ ร้านที่มีหลายสินค้าและรายงานยังเป็นโครงงานที่คุณทำให้ครบบนเครื่องตัวเอง",
+    },
   },
   {
     id: "p6",
@@ -160,6 +248,28 @@ export const PROJECTS: Project[] = [
     criteria: ["สิทธิ์ถูกตรวจที่ฝั่งเซิร์ฟเวอร์", "คำขอเสียไม่ทำให้ฐานเพี้ยน", "README ให้คนอื่นรันตามได้"],
     docs: ["รายการเส้นทาง", "แบบตาราง", "ข้อจำกัดที่รู้"],
     review: ["ช่องไหนที่ถ้าลืมตรวจสิทธิ์จะรั่ว"],
+    lab: {
+      id: "p6-lab",
+      prompt:
+        "เขียน access(owner, actor) เป็นกติกาสิทธิ์ ไม่ได้เปิดฐานข้อมูลจริง actor ว่างคืน 401 คนละคนกับเจ้าของคืน 403 คนเดียวกันคืน 200 คืนเป็นข้อความ",
+      starter: "def access(owner, actor):\n    return \"403\"\n",
+      tests: [
+        {
+          name: "ไม่มีตัวตน คนอื่น และเจ้าของ",
+          expected: "401\n403\n200\n",
+          harness: "print(access(\"ann\", \"\"))\nprint(access(\"ann\", \"ben\"))\nprint(access(\"ann\", \"ann\"))\n",
+        },
+      ],
+      hints: [
+        "ดูตัวตนที่ว่างก่อน",
+        "เปรียบเทียบข้อความของ actor กับ owner",
+        "คนละคนต้องไม่ผ่าน แม้จะรู้รหัสทรัพยากร",
+        "ผ่านได้ทางเดียวคือเป็นเจ้าของ",
+      ],
+      solution:
+        "def access(owner, actor):\n    if actor == \"\":\n        return \"401\"\n    if actor != owner:\n        return \"403\"\n    return \"200\"\n",
+      solutionWhy: "รหัสสถานะนี้คือกติกาที่ต้องอยู่ฝั่งที่ถือข้อมูล ตารางจริงและเทสต์เส้นทางบนเซิร์ฟเวอร์ยังเป็นหลักไมล์ที่คุณทำให้บนเครื่องตัวเอง",
+    },
   },
   {
     id: "p7",
@@ -179,6 +289,28 @@ export const PROJECTS: Project[] = [
     criteria: ["สถานะของหน้าไม่ขัดกับข้อมูลที่เก็บ", "ปุ่มมีชื่อที่เข้าใจโดยไม่อาศัยสีอย่างเดียว", "คุณใช้มันกับงานจริงอย่างน้อยหนึ่งวัน"],
     docs: ["วิธีรัน", "สิ่งที่ยังไม่ซิงก์ข้ามเครื่อง"],
     review: ["ตรงไหนที่ผู้ใช้กดผิดแล้วกู้กลับไม่ได้"],
+    lab: {
+      id: "p7-lab",
+      prompt:
+        "เขียน next_status(name, status) ชื่องว่างหรือมีแต่ช่องว่างคืน reject จาก todo ไป doing จาก doing ไป done done ค้างที่ done สถานะอื่นคืน reject",
+      starter: "def next_status(name, status):\n    return \"reject\"\n",
+      tests: [
+        {
+          name: "ชื่อว่างและสามสถานะ",
+          expected: "reject\ndoing\ndone\ndone\n",
+          harness: "print(next_status(\"   \", \"todo\"))\nprint(next_status(\"อ่าน\", \"todo\"))\nprint(next_status(\"อ่าน\", \"doing\"))\nprint(next_status(\"อ่าน\", \"done\"))\n",
+        },
+      ],
+      hints: [
+        "ตัดช่องว่างที่หัวท้ายของชื่อก่อน",
+        "ชื่อว่างไม่ควรเปลี่ยนสถานะ",
+        "เดินทีละขั้น todo แล้ว doing แล้ว done",
+        "done ไม่มีขั้นถัดไป",
+      ],
+      solution:
+        "def next_status(name, status):\n    if name.strip() == \"\":\n        return \"reject\"\n    if status == \"todo\":\n        return \"doing\"\n    if status == \"doing\":\n        return \"done\"\n    if status == \"done\":\n        return \"done\"\n    return \"reject\"\n",
+      solutionWhy: "นี่คือกฎสถานะของงาน ไม่ใช่หน้าจอ หน้าที่ใช้บนจอแคบและข้อมูลที่อยู่หลังรีเฟรชยังต้องทำให้เอง",
+    },
   },
   {
     id: "p8",
@@ -198,6 +330,28 @@ export const PROJECTS: Project[] = [
     criteria: ["diff อ่านรู้เรื่อง", "ไม่มีรีแฟกเตอร์ที่อธิบายไม่ได้", "เทสต์ล้มแล้วคุณเชื่อมัน"],
     docs: ["ก่อนและหลังในหนึ่งหน้า", "รายการพฤติกรรมที่เทสต์ไม่ครอบ"],
     review: ["จุดไหนที่เทสต์ให้ความมั่นใจหลอก ๆ"],
+    lab: {
+      id: "p8-lab",
+      prompt:
+        "เขียน word_count(text) เป็นพฤติกรรมที่ต้องล็อกไว้ก่อนย้ายโครงสร้าง ข้อความที่ตัดช่องว่างหัวท้ายแล้วว่างได้ 0 นอกนั้นนับคำที่คั่นด้วยช่องว่างเดียว",
+      starter: "def word_count(text):\n    return 0\n",
+      tests: [
+        {
+          name: "สามคำ ว่าง และคำเดียว",
+          expected: "3\n0\n1\n",
+          harness: "print(word_count(\"a b c\"))\nprint(word_count(\"   \"))\nprint(word_count(\"one\"))\n",
+        },
+      ],
+      hints: [
+        "ตัดช่องว่างหัวท้ายก่อน",
+        "ถ้าว่างหลังตัด ให้คืน 0",
+        "คำเดียวไม่มีช่องว่าง ได้ 1",
+        "ทุกช่องว่างเพิ่มจำนวนคำหนึ่ง",
+      ],
+      solution:
+        "def word_count(text):\n    cleaned = text.strip()\n    if cleaned == \"\":\n        return 0\n    n = 1\n    i = 0\n    while i < len(cleaned):\n        if cleaned[i] == \" \":\n            n = n + 1\n        i = i + 1\n    return n\n",
+      solutionWhy: "เทสต์นี้ล็อกผล ไม่ได้ล็อกวิธีเขียน การแยกฟังก์ชันบนโค้ดจริงของคุณยังเป็นการติ๊กหลักไมล์เมื่อเทสต์เดิมยังผ่าน",
+    },
   },
   {
     id: "p9",
@@ -217,6 +371,28 @@ export const PROJECTS: Project[] = [
     criteria: ["คุณอธิบายแต่ละบรรทัดของคำตอบ", "ไม่เชื่อความยาวจากผู้เรียกโดยไม่มีเพดาน", "เอกสารบอกสิ่งที่ยังไม่ปลอดภัย"],
     docs: ["วิธีลองด้วยคำสั่งพื้นฐาน", "รายการที่ยังไม่มี เช่น การเข้ารหัสและผู้ใช้พร้อมกันจำนวนมาก"],
     review: ["ช่องไหนที่ถ้าเปิดออกอินเทอร์เน็ตวันนี้จะอันตราย"],
+    lab: {
+      id: "p9-lab",
+      prompt:
+        "เขียน status_for(path, size) เป็นคำตอบของเซิร์ฟเวอร์จำลอง ไม่ได้เปิดซ็อกเก็ต size มากกว่า 100 คืน 413 เส้น / และ /health คืน 200 เส้นอื่นคืน 404",
+      starter: "def status_for(path, size):\n    return \"404\"\n",
+      tests: [
+        {
+          name: "เส้นที่มี เส้นที่ไม่มี และคำขอใหญ่เกิน",
+          expected: "200\n404\n413\n",
+          harness: "print(status_for(\"/\", 10))\nprint(status_for(\"/nope\", 10))\nprint(status_for(\"/\", 101))\n",
+        },
+      ],
+      hints: [
+        "ตรวจขนาดก่อนเส้นทาง",
+        "มีสองเส้นที่ตอบ 200",
+        "เส้นอื่นเป็น 404",
+        "คำขอใหญ่เกินต้องไม่กลายเป็น 200",
+      ],
+      solution:
+        "def status_for(path, size):\n    if size > 100:\n        return \"413\"\n    if path == \"/\" or path == \"/health\":\n        return \"200\"\n    return \"404\"\n",
+      solutionWhy: "กติการหัสสถานะฝึกได้โดยไม่เปิดพอร์ต โปรแกรมที่รับการเชื่อมต่อจริงยังเป็นงานบนเครื่องคุณ และต้องเขียนไว้ว่ายังไม่มีเทียลเอส",
+    },
   },
   {
     id: "p10",
@@ -236,6 +412,28 @@ export const PROJECTS: Project[] = [
     criteria: ["ทุกก้อนมีหน้าที่เดียวที่พูดได้", "ไม่มีเทคโนโลยีที่คุณอธิบายไม่ได้", "ความล้มเหลวถูกพูดถึงตรง ๆ"],
     docs: ["เอกสารคือตัวส่งมอบ", "รวมคำศัพท์ที่คุณใช้กับความหมายในงานนี้"],
     review: ["ถ้าสต็อกในแคชกับในฐานไม่ตรง ผู้ใช้เห็นอะไร"],
+    lab: {
+      id: "p10-lab",
+      prompt:
+        "เขียน place(kind) บอกที่อยู่ของแต่ละเรื่องในสถาปัตยกรรมรุ่นแรก stock อยู่ที่ database email อยู่ที่ queue page อยู่ที่ monolith อย่างอื่นคือ unknown",
+      starter: "def place(kind):\n    return \"unknown\"\n",
+      tests: [
+        {
+          name: "แหล่งความจริง คิว และของที่ยังไม่แยก",
+          expected: "database\nqueue\nmonolith\nunknown\n",
+          harness: "print(place(\"stock\"))\nprint(place(\"email\"))\nprint(place(\"page\"))\nprint(place(\"search\"))\n",
+        },
+      ],
+      hints: [
+        "สต็อกต้องมีแหล่งความจริงเดียว",
+        "อีเมลเป็นงานที่รอได้ จึงเข้าคิว",
+        "หน้าเว็บยังอยู่ในก้อนเดียว",
+        "สิ่งที่ยังไม่ตัดสินคือ unknown ไม่ใช่ไมโครเซอร์วิส",
+      ],
+      solution:
+        "def place(kind):\n    if kind == \"stock\":\n        return \"database\"\n    if kind == \"email\":\n        return \"queue\"\n    if kind == \"page\":\n        return \"monolith\"\n    return \"unknown\"\n",
+      solutionWhy: "ฟังก์ชันนี้ล็อกทางเลือกที่เอกสารต้องอธิบายได้ แผนภาพและความล้มเหลวที่ผู้ใช้เห็นยังเป็นการเขียนของคุณ ไม่ใช่สิ่งที่ตัวตรวจวาดให้",
+    },
   },
   {
     id: "p11",
@@ -256,6 +454,28 @@ export const PROJECTS: Project[] = [
     criteria: ["ลิมิตไม่เกินเครื่อง", "การกู้ถูกซ้อมไม่ใช่แค่ถูกเขียน", "เอกสารบอกวิธีปิด"],
     docs: ["แผนภาพเครื่อง", "รอบการสำรอง", "วิธีเข้าจากระยะไกลถ้ามี และความเสี่ยง"],
     review: ["บริการใดควรถูกปิดถ้าแรมเริ่มไม่พอ"],
+    lab: {
+      id: "p11-lab",
+      prompt:
+        "เขียน admit(mem_mb, cap_mb) รับบริการเมื่อใช้แรมไม่เกินเพดาน และเพดานต้องมากกว่า 0 ไม่เช่นนั้นคืน deny ที่เหลือคืน allow เป็นแบบจำลองของลิมิต ไม่ได้สั่งคอมโพส",
+      starter: "def admit(mem_mb, cap_mb):\n    return \"deny\"\n",
+      tests: [
+        {
+          name: "อยู่ในเพดาน เกิน และเพดานใช้ไม่ได้",
+          expected: "allow\ndeny\ndeny\n",
+          harness: "print(admit(128, 256))\nprint(admit(512, 256))\nprint(admit(64, 0))\n",
+        },
+      ],
+      hints: [
+        "เพดานศูนย์หรือติดลบใช้ไม่ได้",
+        "เทียบหน่วยความจำที่ขอ กับเพดาน",
+        "เท่ากับเพดานยังรับได้",
+        "เกินเพดานต้องปฏิเสธ",
+      ],
+      solution:
+        "def admit(mem_mb, cap_mb):\n    if cap_mb <= 0:\n        return \"deny\"\n    if mem_mb > cap_mb:\n        return \"deny\"\n    return \"allow\"\n",
+      solutionWhy: "ลิมิตคือกติกาก่อนลงบริการจริง ไฟล์คอมโพส การสำรอง และการซ้อนกู้ยังต้องเกิดบนเครื่องอูบุนตูของคุณ",
+    },
   },
   {
     id: "p12",
@@ -282,6 +502,28 @@ export const PROJECTS: Project[] = [
     criteria: ["คุณอธิบายทุกส่วนที่คุณส่งโดยไม่เปิดโน้ตทั้งก้อน", "เทสต์ล้มแล้วคุณรู้ว่าแปลว่าอะไร", "ไม่มีส่วนที่อ้างว่าปลอดภัยทั้งที่ยังไม่ตรวจ"],
     docs: ["ปัญหา", "สถาปัตยกรรม", "วิธีรัน", "วิธีสำรอง", "ข้อจำกัด"],
     review: ["ถ้าต้องทิ้งโปรเจกต์นี้ อะไรคือสิ่งที่คนต่อไปควรรู้ในหน้าเดียว"],
+    lab: {
+      id: "p12-lab",
+      prompt:
+        "เขียน scope(feature) ตัดขอบเขตของงานส่ง core คืน build sync และ cluster คืน cut อย่างอื่นคืน unknown ของที่ตัดต้องถูกเรียกชื่อตรง ๆ",
+      starter: "def scope(feature):\n    return \"unknown\"\n",
+      tests: [
+        {
+          name: "ทำ สิ่งที่ตัด และของที่ยังไม่ตัดสิน",
+          expected: "build\ncut\ncut\nunknown\n",
+          harness: "print(scope(\"core\"))\nprint(scope(\"sync\"))\nprint(scope(\"cluster\"))\nprint(scope(\"billing\"))\n",
+        },
+      ],
+      hints: [
+        "มีทางทำทางเดียวในตัวตรวจนี้",
+        "ซิงก์ข้ามเครื่องถูกตัด",
+        "คลัสเตอร์ถูกตัด",
+        "ชื่อที่ไม่อยู่ในรายการยังไม่ใช่ทั้งสองทาง",
+      ],
+      solution:
+        "def scope(feature):\n    if feature == \"core\":\n        return \"build\"\n    if feature == \"sync\" or feature == \"cluster\":\n        return \"cut\"\n    return \"unknown\"\n",
+      solutionWhy: "การตัดขอบเขตเป็นส่วนของงานส่งที่ตรวจได้ ส่วนเส้นทางหลักบนของจริงและการใช้หนึ่งสัปดาห์ยังเป็นการประเมินของคุณเอง",
+    },
   },
 ];
 
