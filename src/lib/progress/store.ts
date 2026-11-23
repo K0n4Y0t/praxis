@@ -16,8 +16,10 @@ type ProgressState = ProgressData & {
   bookmarks: string[];
   secondsByDay: Record<string, number>;
   planByDay: Record<string, string[]>;
+  doneOn: Record<string, string>;
   hydrated: boolean;
   markHydrated: () => void;
+  markDone: (lessonId: string) => void;
   answerCheck: (id: string, correct: boolean, bucket?: "checks" | "exam") => void;
   recordRun: (id: string, bucket: "labs" | "challenges", passed: boolean) => void;
   openHint: (id: string, bucket: "labs" | "challenges", level: number) => void;
@@ -62,8 +64,14 @@ export const useProgress = create<ProgressState>()(
       bookmarks: [],
       secondsByDay: {},
       planByDay: {},
+      doneOn: {},
       hydrated: false,
       markHydrated: () => set({ hydrated: true }),
+      markDone: (lessonId) =>
+        set((state) => {
+          if (state.doneOn?.[lessonId]) return state;
+          return { doneOn: { ...(state.doneOn ?? {}), [lessonId]: bangkokDate() } };
+        }),
       answerCheck: (id, correct, bucket = "checks") =>
         set((state) => {
           const prev = state[bucket][id] ?? { tries: 0, correct: false, revealed: false };
@@ -149,6 +157,7 @@ export const useProgress = create<ProgressState>()(
         bookmarks: state.bookmarks,
         secondsByDay: state.secondsByDay,
         planByDay: state.planByDay,
+        doneOn: state.doneOn ?? {},
       }),
     },
   ),

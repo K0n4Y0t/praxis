@@ -26,6 +26,21 @@ export function streakEndingToday(days: Record<string, number>, minSeconds = 60)
   return n;
 }
 
+export function mondayOf(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const weekday = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+  const back = weekday === 0 ? 6 : weekday - 1;
+  return addDays(iso, -back);
+}
+
+export function weekDays(start: string): string[] {
+  return Array.from({ length: 7 }, (_, index) => addDays(start, index));
+}
+
+export function secondsInDays(secondsByDay: Record<string, number>, days: string[]): number {
+  return days.reduce((sum, day) => sum + (secondsByDay[day] ?? 0), 0);
+}
+
 export const PLAN_BLOCKS = [
   { id: "theory", label: "ทฤษฎี", minutes: 30, detail: "อ่านเป้าหมายและแนวคิดของบทที่กำลังเรียน" },
   { id: "lab", label: "ลงมือเขียน", minutes: 45, detail: "ทำแล็บหรือสนามทดลอง จนกว่าเทสต์จะผ่าน" },

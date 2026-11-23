@@ -10,7 +10,7 @@ The app is a single modular web app (React, TypeScript, Vite, TanStack Start). P
 
 Shipped and usable:
 
-- Dashboard with a two-hour daily plan, study streak (Asia/Bangkok), and the next unfinished lesson
+- Dashboard with a two-hour daily plan, a Monday–Sunday review (minutes against a 14-hour week, lessons finished that week, topics to restudy), study streak (Asia/Bangkok), and the next unfinished lesson
 - Twelve semesters, 127 lessons. Each lesson has objectives, prerequisites, a Thai concept explanation, an editable example, checks that do not reveal the answer immediately, a lab with automated tests, a summary, vocabulary, pitfalls, and a completion rule
 - In-browser Python subset runner: syntax highlighting, run, reset, stdin, stdout, step limit, no `import`, no filesystem, no server-side `eval`. Errors are explained from the real error name
 - Practice set for every semester: debug, predict-the-output, find-the-bug, reverse, and design. Five hint levels. Seeing the full solution caps mastery

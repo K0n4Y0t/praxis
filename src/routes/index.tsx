@@ -62,7 +62,7 @@ function Home() {
             ))}
           </ul>
           <Link to="/planner" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
-            เปิดตาราง
+            เปิดตารางและทบทวนสัปดาห์
           </Link>
         </Panel>
         <Panel>

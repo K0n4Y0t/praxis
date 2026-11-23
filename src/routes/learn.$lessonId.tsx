@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bookmark } from "lucide-react";
-import { getLesson, getSemester, nextLesson } from "@/lib/curriculum/index";
+import { getLesson, getSemester, nextLesson, prevLesson } from "@/lib/curriculum/index";
 import { isLessonComplete, lessonMastery } from "@/lib/progress/scoring";
 import { useProgress } from "@/lib/progress/store";
 import { CheckList } from "@/components/checks";
@@ -15,19 +15,24 @@ function LessonPage() {
   const { lessonId } = Route.useParams();
   const lesson = getLesson(lessonId);
   const data = useProgress();
+  const markDone = useProgress((state) => state.markDone);
   const [exampleOut, setExampleOut] = useState("");
   const [cause, setCause] = useState("");
   useEffect(() => {
     setExampleOut("");
     setCause("");
   }, [lessonId]);
+  const done = lesson ? isLessonComplete(lesson, data) : false;
+  useEffect(() => {
+    if (lesson && done) markDone(lesson.id);
+  }, [done, lesson, markDone]);
   if (!lesson) return <p>ไม่พบบทเรียนนี้</p>;
   const semester = getSemester(lesson.semester);
   const missing = lesson.prereq.map((id) => getLesson(id)).filter((item) => item && !isLessonComplete(item, data));
-  const done = isLessonComplete(lesson, data);
   const mastery = lessonMastery(lesson, data);
   const labState = lesson.lab ? data.labs[lesson.lab.id] : undefined;
   const following = nextLesson(lesson.id);
+  const previous = prevLesson(lesson.id);
 
   return (
     <article className="grid gap-8">
@@ -187,11 +192,22 @@ function LessonPage() {
         </Panel>
       </section>
 
-      {following ? (
-        <Link to="/learn/$lessonId" params={{ lessonId: following.id }} className="font-semibold text-accent">
-          บทถัดไป · {following.title}
-        </Link>
-      ) : null}
+      <nav className="flex flex-col gap-2 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
+        {previous ? (
+          <Link to="/learn/$lessonId" params={{ lessonId: previous.id }} className="inline-flex min-h-11 items-center font-semibold">
+            บทก่อน · {previous.title}
+          </Link>
+        ) : (
+          <span className="text-sm text-muted">นี่คือบทแรก</span>
+        )}
+        {following ? (
+          <Link to="/learn/$lessonId" params={{ lessonId: following.id }} className="inline-flex min-h-11 items-center font-semibold text-accent">
+            บทถัดไป · {following.title}
+          </Link>
+        ) : (
+          <span className="text-sm text-muted">จบเส้นบทเรียนแล้ว</span>
+        )}
+      </nav>
     </article>
   );
 }
