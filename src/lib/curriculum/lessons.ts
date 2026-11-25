@@ -1,4 +1,5 @@
 import type { Lesson } from "./types";
+import { deepen } from "./detail.ts";
 import { LESSONS_S2 } from "./lessons-s2.ts";
 import { LESSONS_S3 } from "./lessons-s3.ts";
 import { LESSONS_S4 } from "./lessons-s4.ts";
@@ -935,7 +936,7 @@ const LESSONS_S1: Lesson[] = [
   },
 ];
 
-export const LESSONS: Lesson[] = [
+export const LESSONS: Lesson[] = deepen([
   ...LESSONS_S1,
   ...LESSONS_S2,
   ...LESSONS_S3,
@@ -948,6 +949,6 @@ export const LESSONS: Lesson[] = [
   ...LESSONS_S10,
   ...LESSONS_S11,
   ...LESSONS_S12,
-];
+]);
 
 export const LESSON_MAP = new Map(LESSONS.map((lesson) => [lesson.id, lesson]));

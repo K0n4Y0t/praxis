@@ -1,4 +1,5 @@
 import type { Challenge } from "./types";
+import { CORE_CHALLENGES } from "./challenges-core.ts";
 import { MORE_CHALLENGES } from "./challenges-more.ts";
 
 const CHALLENGE_BASE: Challenge[] = [
@@ -121,4 +122,4 @@ const CHALLENGE_BASE: Challenge[] = [
   },
 ];
 
-export const CHALLENGES: Challenge[] = [...CHALLENGE_BASE, ...MORE_CHALLENGES];
+export const CHALLENGES: Challenge[] = [...CHALLENGE_BASE, ...CORE_CHALLENGES, ...MORE_CHALLENGES];

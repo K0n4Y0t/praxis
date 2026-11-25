@@ -11,6 +11,8 @@ import {
   Moon,
   NotebookPen,
   Puzzle,
+  RotateCcw,
+  Server,
   SquareTerminal,
   Sun,
   X,
@@ -25,6 +27,8 @@ const NAV = [
   { to: "/practice", label: "โจทย์ฝึก", icon: Puzzle },
   { to: "/projects", label: "โครงงาน", icon: FolderKanban },
   { to: "/planner", label: "ตารางวัน", icon: CalendarDays },
+  { to: "/recall", label: "ดึงความจำ", icon: RotateCcw },
+  { to: "/machine", label: "บนเครื่อง", icon: Server },
   { to: "/journal", label: "สมุดบันทึก", icon: NotebookPen },
   { to: "/progress", label: "ความเชี่ยวชาญ", icon: LineChart },
   { to: "/handbook", label: "คู่มือระบบ", icon: BookOpen },
@@ -56,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const timer = window.setInterval(() => {
       if (document.visibilityState !== "visible") return;
-      if (path.startsWith("/learn") || path.startsWith("/practice") || path.startsWith("/playground") || path.startsWith("/projects")) {
+      if (path.startsWith("/learn") || path.startsWith("/practice") || path.startsWith("/playground") || path.startsWith("/projects") || path.startsWith("/recall") || path.startsWith("/machine")) {
         addSeconds(30);
       }
     }, 30000);

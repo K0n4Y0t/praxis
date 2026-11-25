@@ -17,9 +17,13 @@ type ProgressState = ProgressData & {
   secondsByDay: Record<string, number>;
   planByDay: Record<string, string[]>;
   doneOn: Record<string, string>;
+  recall: Record<string, Attempt>;
+  machine: Record<string, boolean>;
   hydrated: boolean;
   markHydrated: () => void;
   markDone: (lessonId: string) => void;
+  answerRecall: (key: string, correct: boolean) => void;
+  markMachine: (id: string, passed: boolean) => void;
   answerCheck: (id: string, correct: boolean, bucket?: "checks" | "exam") => void;
   recordRun: (id: string, bucket: "labs" | "challenges", passed: boolean) => void;
   openHint: (id: string, bucket: "labs" | "challenges", level: number) => void;
@@ -65,6 +69,8 @@ export const useProgress = create<ProgressState>()(
       secondsByDay: {},
       planByDay: {},
       doneOn: {},
+      recall: {},
+      machine: {},
       hydrated: false,
       markHydrated: () => set({ hydrated: true }),
       markDone: (lessonId) =>
@@ -72,6 +78,19 @@ export const useProgress = create<ProgressState>()(
           if (state.doneOn?.[lessonId]) return state;
           return { doneOn: { ...(state.doneOn ?? {}), [lessonId]: bangkokDate() } };
         }),
+      answerRecall: (key, correct) =>
+        set((state) => {
+          const prev = state.recall?.[key] ?? { tries: 0, correct: false, revealed: false };
+          const tries = prev.tries + 1;
+          const next: Attempt = {
+            tries,
+            correct: prev.correct || correct,
+            revealed: prev.revealed || (!correct && tries >= 3),
+          };
+          return { recall: { ...(state.recall ?? {}), [key]: next } };
+        }),
+      markMachine: (id, passed) =>
+        set((state) => ({ machine: { ...(state.machine ?? {}), [id]: Boolean(state.machine?.[id]) || passed } })),
       answerCheck: (id, correct, bucket = "checks") =>
         set((state) => {
           const prev = state[bucket][id] ?? { tries: 0, correct: false, revealed: false };
@@ -158,6 +177,8 @@ export const useProgress = create<ProgressState>()(
         secondsByDay: state.secondsByDay,
         planByDay: state.planByDay,
         doneOn: state.doneOn ?? {},
+        recall: state.recall ?? {},
+        machine: state.machine ?? {},
       }),
     },
   ),

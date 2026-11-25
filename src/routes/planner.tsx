@@ -69,6 +69,9 @@ function Planner() {
             ))}
           </ul>
         </div>
+        <Link to="/recall" className="inline-flex min-h-11 items-center text-sm font-semibold text-accent">
+          เปิดข้อดึงความจำของสัปดาห์นี้
+        </Link>
         {practice ? (
           <Link to="/practice/$challengeId" params={{ challengeId: practice.id }} className="inline-flex min-h-11 items-center text-sm font-semibold text-accent">
             โจทย์ฝึกของภาค {current.semester} · {practice.title}

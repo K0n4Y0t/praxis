@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HandbookRouteImport } from './routes/handbook'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as MachineRouteImport } from './routes/machine'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as RecallRouteImport } from './routes/recall'
 import { Route as CurriculumIndexRouteImport } from './routes/curriculum.index'
 import { Route as CurriculumSemesterIdRouteImport } from './routes/curriculum.$semesterId'
 import { Route as LearnLessonIdRouteImport } from './routes/learn.$lessonId'
@@ -38,6 +40,11 @@ const JournalRoute = JournalRouteImport.update({
   path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MachineRoute = MachineRouteImport.update({
+  id: '/machine',
+  path: '/machine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlannerRoute = PlannerRouteImport.update({
   id: '/planner',
   path: '/planner',
@@ -51,6 +58,11 @@ const PlaygroundRoute = PlaygroundRouteImport.update({
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecallRoute = RecallRouteImport.update({
+  id: '/recall',
+  path: '/recall',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CurriculumIndexRoute = CurriculumIndexRouteImport.update({
@@ -93,9 +105,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/handbook': typeof HandbookRoute
   '/journal': typeof JournalRoute
+  '/machine': typeof MachineRoute
   '/planner': typeof PlannerRoute
   '/playground': typeof PlaygroundRoute
   '/progress': typeof ProgressRoute
+  '/recall': typeof RecallRoute
   '/curriculum/$semesterId': typeof CurriculumSemesterIdRoute
   '/learn/$lessonId': typeof LearnLessonIdRoute
   '/practice/$challengeId': typeof PracticeChallengeIdRoute
@@ -108,9 +122,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/handbook': typeof HandbookRoute
   '/journal': typeof JournalRoute
+  '/machine': typeof MachineRoute
   '/planner': typeof PlannerRoute
   '/playground': typeof PlaygroundRoute
   '/progress': typeof ProgressRoute
+  '/recall': typeof RecallRoute
   '/curriculum/$semesterId': typeof CurriculumSemesterIdRoute
   '/learn/$lessonId': typeof LearnLessonIdRoute
   '/practice/$challengeId': typeof PracticeChallengeIdRoute
@@ -124,9 +140,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/handbook': typeof HandbookRoute
   '/journal': typeof JournalRoute
+  '/machine': typeof MachineRoute
   '/planner': typeof PlannerRoute
   '/playground': typeof PlaygroundRoute
   '/progress': typeof ProgressRoute
+  '/recall': typeof RecallRoute
   '/curriculum/$semesterId': typeof CurriculumSemesterIdRoute
   '/learn/$lessonId': typeof LearnLessonIdRoute
   '/practice/$challengeId': typeof PracticeChallengeIdRoute
@@ -141,9 +159,11 @@ export interface FileRouteTypes {
     | '/'
     | '/handbook'
     | '/journal'
+    | '/machine'
     | '/planner'
     | '/playground'
     | '/progress'
+    | '/recall'
     | '/curriculum/$semesterId'
     | '/learn/$lessonId'
     | '/practice/$challengeId'
@@ -156,9 +176,11 @@ export interface FileRouteTypes {
     | '/'
     | '/handbook'
     | '/journal'
+    | '/machine'
     | '/planner'
     | '/playground'
     | '/progress'
+    | '/recall'
     | '/curriculum/$semesterId'
     | '/learn/$lessonId'
     | '/practice/$challengeId'
@@ -171,9 +193,11 @@ export interface FileRouteTypes {
     | '/'
     | '/handbook'
     | '/journal'
+    | '/machine'
     | '/planner'
     | '/playground'
     | '/progress'
+    | '/recall'
     | '/curriculum/$semesterId'
     | '/learn/$lessonId'
     | '/practice/$challengeId'
@@ -187,9 +211,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HandbookRoute: typeof HandbookRoute
   JournalRoute: typeof JournalRoute
+  MachineRoute: typeof MachineRoute
   PlannerRoute: typeof PlannerRoute
   PlaygroundRoute: typeof PlaygroundRoute
   ProgressRoute: typeof ProgressRoute
+  RecallRoute: typeof RecallRoute
   CurriculumSemesterIdRoute: typeof CurriculumSemesterIdRoute
   LearnLessonIdRoute: typeof LearnLessonIdRoute
   PracticeChallengeIdRoute: typeof PracticeChallengeIdRoute
@@ -222,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/machine': {
+      id: '/machine'
+      path: '/machine'
+      fullPath: '/machine'
+      preLoaderRoute: typeof MachineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/planner': {
       id: '/planner'
       path: '/planner'
@@ -241,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/progress'
       fullPath: '/progress'
       preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recall': {
+      id: '/recall'
+      path: '/recall'
+      fullPath: '/recall'
+      preLoaderRoute: typeof RecallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curriculum/': {
@@ -299,9 +339,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HandbookRoute: HandbookRoute,
   JournalRoute: JournalRoute,
+  MachineRoute: MachineRoute,
   PlannerRoute: PlannerRoute,
   PlaygroundRoute: PlaygroundRoute,
   ProgressRoute: ProgressRoute,
+  RecallRoute: RecallRoute,
   CurriculumSemesterIdRoute: CurriculumSemesterIdRoute,
   LearnLessonIdRoute: LearnLessonIdRoute,
   PracticeChallengeIdRoute: PracticeChallengeIdRoute,
