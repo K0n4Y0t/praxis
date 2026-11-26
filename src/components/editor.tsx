@@ -75,7 +75,7 @@ export function CodeEditor({
       ref={host}
       role="group"
       aria-label={label}
-      className="min-h-64 overflow-hidden rounded-md border border-line bg-bg"
+      className="min-h-64 overflow-hidden rounded-xl border border-line bg-bg"
     />
   );
 }

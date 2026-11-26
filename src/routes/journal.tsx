@@ -22,7 +22,7 @@ function JournalPage() {
       <header className="grid gap-2">
         <Eyebrow>ความรู้ที่คุณเป็นเจ้าของ</Eyebrow>
         <h1 className="text-4xl font-semibold">สมุดบันทึก</h1>
-        <input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="ค้นบันทึก" placeholder="ค้นจากคำ" className="min-h-11 rounded-md border border-line bg-surface px-3" />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="ค้นบันทึก" placeholder="ค้นจากคำ" className="min-h-11 rounded-full border border-line bg-surface-2 px-4" />
       </header>
 
       <Panel className="grid gap-3">

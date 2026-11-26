@@ -30,7 +30,7 @@ function ProgressPage() {
         <select
           value={semesterId}
           onChange={(event) => setSemesterId(Number(event.target.value))}
-          className="min-h-11 rounded-md border border-line bg-surface px-3"
+          className="min-h-11 rounded-full border border-line bg-surface-2 px-4"
         >
           {SEMESTERS.map((semester) => (
             <option key={semester.id} value={semester.id}>
@@ -50,7 +50,7 @@ function ProgressPage() {
                 <span>{part.label} · {part.weight}%</span>
                 <span className="tabular-nums">{part.score === null ? "ยังไม่เริ่ม" : part.score}</span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+              <div className="h-2 overflow-hidden rounded-full bg-bg/50">
                 <div className="h-full bg-accent" style={{ width: `${part.score ?? 0}%` }} />
               </div>
               <p className="text-muted">{part.note}</p>
@@ -67,7 +67,7 @@ function ProgressPage() {
                 <span>{track.label}</span>
                 <span className="tabular-nums text-muted">{track.total ? `${track.done}/${track.total}` : "รอเนื้อหา"} {track.mastery !== null ? `· ${track.mastery}` : ""}</span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+              <div className="h-2 overflow-hidden rounded-full bg-bg/50">
                 <div className="h-full bg-ok" style={{ width: track.total ? `${(track.done / track.total) * 100}%` : "0%" }} />
               </div>
             </li>

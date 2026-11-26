@@ -23,22 +23,26 @@ function Home() {
   const assessment = semesterAssessment(current.semester, data);
 
   return (
-    <div className="grid gap-6">
-      <header className="grid gap-2">
+    <div className="grid gap-8">
+      <header className="grid max-w-2xl gap-3">
         <Eyebrow>สำนักเรียนด้วยการลงมือทำ</Eyebrow>
-        <h1 className="text-4xl font-semibold tracking-tight">วันนี้เรียนต่อจากของที่ยังไม่ผ่าน</h1>
-        <p className="max-w-2xl text-muted">
-          หลักสูตรสิบสองภาค จากคนที่ยังไม่เขียนโปรแกรม ไปจนถึงคนที่ออกแบบและดูแลระบบเองได้ ภาษาอธิบายเป็นไทย คำเทคนิคคงภาษาอังกฤษ
+        <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">วันนี้เรียนต่อจากของที่ยังไม่ผ่าน</h1>
+        <p className="text-muted">
+          สิบสองภาค จากคนที่ยังไม่เขียนโปรแกรม ไปจนถึงคนที่ออกแบบระบบเองได้ อธิบายเป็นไทย คำเทคนิคคงภาษาอังกฤษ
         </p>
       </header>
 
-      <Panel className="grid gap-4 md:grid-cols-[1.4fr_0.8fr]">
+      <Panel className="grid gap-6 overflow-hidden md:grid-cols-[1.4fr_0.9fr] md:items-center md:p-7">
         <div className="grid gap-2">
           <p className="text-sm text-muted">บทถัดไป · ภาค {semester.id}</p>
-          <h2 className="text-2xl font-semibold">{current.title}</h2>
-          <p className="text-sm text-muted">{current.en}</p>
-          <p className="text-sm">ใช้เวลาโดยประมาณ {current.minutes} นาที และต้องผ่านคำถามกับแล็บ ไม่ใช่แค่เลื่อนจบ</p>
-          <Link to="/learn/$lessonId" params={{ lessonId: current.id }} className="mt-2 inline-flex min-h-11 items-center gap-2 font-semibold text-accent">
+          <h2 className="text-2xl font-semibold tracking-tight">{current.title}</h2>
+          <p className="text-sm text-accent">{current.en}</p>
+          <p className="text-sm text-muted">ประมาณ {current.minutes} นาที ต้องผ่านคำถามกับแล็บ ไม่ใช่แค่เลื่อนจบ</p>
+          <Link
+            to="/learn/$lessonId"
+            params={{ lessonId: current.id }}
+            className="mt-3 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-fg"
+          >
             เข้าบทเรียน <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>
@@ -46,7 +50,7 @@ function Home() {
           <Stat label="บทที่ผ่านแล้ว" value={`${done}/${LESSONS.length}`} />
           <Stat label="วันนี้" value={`${minutes} นาที`} />
           <Stat label="ต่อเนื่อง" value={`${streak} วัน`} />
-          <Stat label={`ภาค ${current.semester}`} value={assessment.total === null ? "ยังไม่คิดคะแนน" : `${assessment.total}/100`} />
+          <Stat label={`ภาค ${current.semester}`} value={assessment.total === null ? "ยังไม่คิด" : `${assessment.total}/100`} />
         </dl>
       </Panel>
 
@@ -61,7 +65,7 @@ function Home() {
               </li>
             ))}
           </ul>
-          <Link to="/planner" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
+          <Link to="/planner" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
             เปิดตารางและทบทวนสัปดาห์
           </Link>
         </Panel>
@@ -89,7 +93,7 @@ function Home() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md bg-surface-2 p-3">
+    <div className="rounded-2xl bg-bg/35 p-3">
       <dt className="text-muted">{label}</dt>
       <dd className="mt-1 text-lg font-semibold tabular-nums">{value}</dd>
     </div>

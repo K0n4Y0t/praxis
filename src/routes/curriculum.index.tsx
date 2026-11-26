@@ -22,7 +22,7 @@ function Curriculum() {
     <div className="grid gap-6">
       <header className="grid gap-2">
         <Eyebrow>12 ภาค · 36–48 เดือน</Eyebrow>
-        <h1 className="text-4xl font-semibold">หลักสูตร</h1>
+        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">หลักสูตร</h1>
         <p className="max-w-2xl text-muted">
           สิบสองภาคเปิดเรียนได้แล้ว แต่ละบทมีแนวคิด ตัวอย่างที่แก้ได้ คำถาม และแล็บที่ตัวตรวจรันให้ ภาคหลัง ๆ เป็นแบบจำลองด้วย Python ชุดย่อยในเบราว์เซอร์ ไม่ใช่การรันลินุกซ์ ภาษาซี หรือฐานข้อมูลจริง
         </p>
@@ -32,7 +32,7 @@ function Curriculum() {
         onChange={(event) => setQuery(event.target.value)}
         placeholder="ค้นหาชื่อวิชา"
         aria-label="ค้นหาหลักสูตร"
-        className="min-h-11 rounded-md border border-line bg-surface px-3"
+        className="min-h-11 rounded-full border border-line bg-surface-2 px-4"
       />
       <div className="grid gap-4">
         {semesters.map((semester) => {

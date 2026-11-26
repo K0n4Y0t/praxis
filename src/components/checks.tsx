@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Check } from "@/lib/curriculum/types";
 import type { Attempt } from "@/lib/progress/scoring";
 import { Button, Panel } from "./ui";
+import { cn } from "@/lib/cn";
 
 function normalize(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
@@ -52,12 +53,18 @@ function CheckCard({
 
   return (
     <Panel className="grid gap-3">
-      <p className="text-xs font-semibold tracking-widest text-muted uppercase">คำถาม {index}</p>
-      <p className="whitespace-pre-wrap">{check.prompt}</p>
+      <p className="text-xs font-medium text-muted">คำถาม {index}</p>
+      <p className="text-[17px] leading-8 whitespace-pre-wrap">{check.prompt}</p>
       {check.kind === "mcq" ? (
         <div className="grid gap-2">
           {check.choices.map((item, itemIndex) => (
-            <label key={item} className="flex min-h-11 items-start gap-3 rounded-md border border-line px-3 py-2 text-sm">
+            <label
+              key={item}
+              className={cn(
+                "flex min-h-11 items-start gap-3 rounded-xl border px-3 py-3 text-sm",
+                choice === itemIndex ? "border-accent bg-accent-soft" : "border-line",
+              )}
+            >
               <input
                 type="radio"
                 name={check.id}
@@ -73,7 +80,7 @@ function CheckCard({
         <input
           value={text}
           onChange={(event) => setText(event.target.value)}
-          className="min-h-11 rounded-md border border-line bg-bg px-3 text-sm"
+          className="min-h-11 rounded-xl border border-line bg-bg px-3 text-sm"
           aria-label="คำตอบ"
         />
       )}

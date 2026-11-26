@@ -75,18 +75,21 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-bg text-fg md:grid md:grid-cols-[16rem_minmax(0,1fr)]">
-      <aside className="hidden border-r border-line bg-surface md:flex md:flex-col">
+    <div className="min-h-dvh text-fg md:grid md:h-dvh md:grid-cols-[15rem_minmax(0,1fr)] md:gap-3 md:overflow-hidden md:p-3">
+      <aside className="hidden md:flex md:flex-col md:overflow-hidden md:rounded-[28px] md:bg-surface md:shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
         <Brand />
         <Nav path={path} />
       </aside>
       {open ? (
         <div className="fixed inset-0 z-40 md:hidden">
-          <button className="absolute inset-0 bg-bg/80" aria-label="ปิดเมนู" onClick={() => setOpen(false)} />
-          <div className="relative flex h-full w-72 flex-col border-r border-line bg-surface">
-            <div className="flex items-center justify-between px-4 pt-4">
+          <button className="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-label="ปิดเมนู" onClick={() => setOpen(false)} />
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[min(86dvh,40rem)] flex-col rounded-t-[28px] bg-surface shadow-[0_-20px_80px_rgba(0,0,0,0.45)]">
+            <div className="flex justify-center pt-3">
+              <span className="h-1.5 w-10 rounded-full bg-line" />
+            </div>
+            <div className="flex items-center justify-between px-5 pt-3">
               <Brand compact />
-              <button className="grid size-11 place-items-center" onClick={() => setOpen(false)} aria-label="ปิด">
+              <button className="grid size-11 place-items-center rounded-full bg-surface-2" onClick={() => setOpen(false)} aria-label="ปิด">
                 <X className="size-5" />
               </button>
             </div>
@@ -94,17 +97,17 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       ) : null}
-      <div className="min-w-0">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-bg/95 px-4 py-2 backdrop-blur md:px-8">
-          <button className="grid size-11 place-items-center md:hidden" onClick={() => setOpen(true)} aria-label="เปิดเมนู">
+      <div className="flex min-h-dvh min-w-0 flex-col md:min-h-0 md:overflow-hidden md:rounded-[28px] md:bg-surface md:shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+        <header className="sticky top-0 z-30 flex min-h-14 items-center justify-between bg-bg/70 px-3 pt-[env(safe-area-inset-top)] backdrop-blur-xl md:static md:shrink-0 md:bg-transparent md:px-8 md:pt-4">
+          <button className="grid size-11 place-items-center rounded-full bg-surface md:hidden" onClick={() => setOpen(true)} aria-label="เปิดเมนู">
             <Menu className="size-5" />
           </button>
-          <p className="hidden text-sm text-muted md:block">เรียนวันละสองชั่วโมง · ทฤษฎี ลงมือ แบบฝึก ทบทวน</p>
-          <button className="grid size-11 place-items-center" onClick={toggleTheme} aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}>
+          <p className="hidden text-sm text-muted md:block">วันละสองชั่วโมง · อ่าน ลงมือ ตรวจ แล้วค่อยไปต่อ</p>
+          <button className="ml-auto grid size-11 place-items-center rounded-full bg-surface md:bg-surface-2" onClick={toggleTheme} aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}>
             {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
           </button>
         </header>
-        <main className="mx-auto w-full max-w-5xl px-4 py-6 md:px-8 md:py-8">
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 pb-[max(2rem,env(safe-area-inset-bottom))] md:overflow-y-auto md:px-10 md:py-8">
           {hydrated ? children : <p className="text-muted">กำลังเปิดสมุดความคืบหน้าบนเครื่องนี้</p>}
         </main>
       </div>
@@ -114,16 +117,19 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
-    <Link to="/" className={cn("block px-5 py-6", compact && "px-0 py-0")}>
-      <p className="text-2xl font-semibold tracking-tight">Praxis</p>
-      <p className="text-sm text-muted">สำนักวิศวกรรมซอฟต์แวร์</p>
+    <Link to="/" className={cn("flex items-center gap-3 px-5 py-6", compact && "px-0 py-0")}>
+      <span className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-semibold text-accent-fg">P</span>
+      <span>
+        <p className="text-lg font-semibold tracking-tight">Praxis</p>
+        <p className="text-xs text-muted">สำนักวิศวกรรมซอฟต์แวร์</p>
+      </span>
     </Link>
   );
 }
 
 function Nav({ path }: { path: string }) {
   return (
-    <nav className="flex flex-1 flex-col gap-1 px-3 pb-6" aria-label="หลัก">
+    <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom))]" aria-label="หลัก">
       {NAV.map((item) => {
         const active = item.to === "/" ? path === "/" : path === item.to || path.startsWith(item.to + "/");
         const Icon = item.icon;
@@ -132,11 +138,11 @@ function Nav({ path }: { path: string }) {
             key={item.to}
             to={item.to}
             className={cn(
-              "flex min-h-11 items-center gap-3 rounded-md px-3 text-sm",
-              active ? "bg-surface-2 font-semibold text-fg" : "text-muted",
+              "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm",
+              active ? "bg-accent-soft font-semibold text-fg" : "text-muted hover:bg-surface-2 hover:text-fg",
             )}
           >
-            <Icon className="size-4" aria-hidden="true" />
+            <Icon className={cn("size-4", active && "text-accent")} aria-hidden="true" />
             {item.label}
           </Link>
         );

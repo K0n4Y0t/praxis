@@ -39,7 +39,7 @@ function Planner() {
         <h2 className="font-semibold">ทบทวนสัปดาห์นี้</h2>
         <p className="text-sm text-muted">{days[0]} ถึง {days[6]} · เป้า 14 ชั่วโมง จากวันละ 2 ชั่วโมง</p>
         <p className="text-3xl font-semibold tabular-nums">{weekMinutes} <span className="text-base font-normal text-muted">/ {WEEK_TARGET} นาที</span></p>
-        <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+        <div className="h-2 overflow-hidden rounded-full bg-bg/50">
           <div className="h-full bg-accent" style={{ width: `${width}%` }} />
         </div>
         <p className="text-sm text-muted">สัปดาห์ก่อนหน้า {lastMinutes} นาที วันที่จบบทเริ่มถูกจำจากวันนี้เป็นต้นไป บทที่ผ่านก่อนหน้านี้ไม่มีวันที่</p>

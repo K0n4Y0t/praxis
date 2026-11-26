@@ -25,10 +25,10 @@ function ChallengePage() {
         <Eyebrow>ทายก่อนรัน</Eyebrow>
         <h1 className="text-3xl font-semibold">{challenge.title}</h1>
         <p>{challenge.prompt}</p>
-        <pre className="overflow-auto rounded-md border border-line bg-surface p-4 font-mono text-sm whitespace-pre-wrap">{challenge.code}</pre>
+        <pre className="overflow-auto rounded-2xl bg-bg/40 p-4 font-mono text-sm whitespace-pre-wrap">{challenge.code}</pre>
         <label className="grid gap-2 text-sm">
           คำตอบที่ทาย
-          <textarea value={guess} onChange={(event) => setGuess(event.target.value)} rows={3} className="rounded-md border border-line bg-surface p-3 font-mono" />
+          <textarea value={guess} onChange={(event) => setGuess(event.target.value)} rows={3} className="rounded-2xl border border-line bg-bg/40 p-3 font-mono" />
         </label>
         <Button
           type="button"
