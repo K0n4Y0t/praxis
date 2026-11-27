@@ -8,4 +8,7 @@ test("machine output match does not treat a typed claim as a run", () => {
   assert.equal(matchMachineOutput("exact", "4", "SELECT 4"), false);
   assert.equal(matchMachineOutput("contains", "git version", "git version 2.43.0"), true);
   assert.equal(matchMachineOutput("contains", "Linux", "Darwin"), false);
+  assert.equal(matchMachineOutput("exact", "3", "3\n"), true);
+  assert.equal(matchMachineOutput("exact", "start", "Initialized\n"), false);
+  assert.equal(matchMachineOutput("exact", "book", "book"), true);
 });

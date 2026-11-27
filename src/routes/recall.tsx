@@ -49,7 +49,7 @@ function RecallPage() {
                   <Link
                     to="/learn/$lessonId"
                     params={{ lessonId: pick.lesson.id }}
-                    className="inline-flex min-h-11 items-center font-semibold text-signal"
+                    className="inline-flex min-h-11 w-fit items-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-fg"
                   >
                     ยังไม่ติด กลับไปบท {pick.lesson.title}
                   </Link>

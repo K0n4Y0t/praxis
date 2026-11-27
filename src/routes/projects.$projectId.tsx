@@ -25,8 +25,8 @@ function ProjectPage() {
       <Block title="ข้อกำหนดทางเทคนิค" items={project.spec} />
       <Block title="ลำดับงาน" items={project.tasks} />
       <Panel>
-        <h2 className="font-semibold">หลักไมล์ที่คุณติ๊กเอง</h2>
-        <p className="mt-2 text-sm text-muted">เครื่องหมายนี้ไม่ใช่คะแนนจากผู้ตรวจ ติ๊กเมื่อคุณทำข้อนั้นได้จริง</p>
+        <h2 className="font-semibold">หลักไมล์ที่ติ๊กเอง</h2>
+        <p className="mt-2 text-sm text-muted">นี่ไม่ใช่การตรวจผ่าน ติ๊กเมื่อคุณทำข้อนั้นบนเครื่องจริงได้แล้ว</p>
         <ul className="mt-3 grid gap-2">
           {project.milestones.map((milestone) => (
             <li key={milestone.id}>
@@ -49,7 +49,7 @@ function ProjectPage() {
       <Block title="คำถามปิดงาน" items={project.review} />
       {project.lab ? (
         <section className="grid gap-3">
-          <h2 className="text-2xl font-semibold">ฟังก์ชันแกนที่ตัวตรวจรัน</h2>
+          <h2 className="text-2xl font-semibold">ตัวตรวจในเบราว์เซอร์</h2>
           <p className="text-sm text-muted">นี่คือกติกาที่ตรวจได้ในหน้า งานที่ต้องใช้เครื่องจริงยังอยู่ที่หลักไมล์ด้านบน และไม่ถูกนับว่าทำแล้วเพียงเพราะเทสต์นี้ผ่าน</p>
           <p>{project.lab.prompt}</p>
           <Runner

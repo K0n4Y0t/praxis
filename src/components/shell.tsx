@@ -75,21 +75,21 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-dvh text-fg md:grid md:h-dvh md:grid-cols-[15rem_minmax(0,1fr)] md:gap-3 md:overflow-hidden md:p-3">
-      <aside className="hidden md:flex md:flex-col md:overflow-hidden md:rounded-[28px] md:bg-surface md:shadow-[0_16px_50px_rgba(0,0,0,0.28)]">
+    <div className="min-h-dvh bg-bg text-fg md:grid md:h-dvh md:grid-cols-[15rem_minmax(0,1fr)] md:overflow-hidden">
+      <aside className="hidden border-r border-line bg-surface md:flex md:flex-col">
         <Brand />
         <Nav path={path} />
       </aside>
       {open ? (
         <div className="fixed inset-0 z-40 md:hidden">
-          <button className="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-label="ปิดเมนู" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 bottom-0 flex max-h-[min(86dvh,40rem)] flex-col rounded-t-[28px] bg-surface shadow-[0_-20px_80px_rgba(0,0,0,0.45)]">
+          <button className="absolute inset-0 bg-black/50" aria-label="ปิดเมนู" onClick={() => setOpen(false)} />
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[min(86dvh,40rem)] flex-col rounded-t-2xl border border-line bg-surface">
             <div className="flex justify-center pt-3">
-              <span className="h-1.5 w-10 rounded-full bg-line" />
+              <span className="h-1 w-8 rounded-full bg-line" />
             </div>
-            <div className="flex items-center justify-between px-5 pt-3">
+            <div className="flex items-center justify-between px-4 pt-3">
               <Brand compact />
-              <button className="grid size-11 place-items-center rounded-full bg-surface-2" onClick={() => setOpen(false)} aria-label="ปิด">
+              <button className="grid size-11 place-items-center rounded-lg" onClick={() => setOpen(false)} aria-label="ปิด">
                 <X className="size-5" />
               </button>
             </div>
@@ -97,17 +97,17 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       ) : null}
-      <div className="flex min-h-dvh min-w-0 flex-col md:min-h-0 md:overflow-hidden md:rounded-[28px] md:bg-surface md:shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
-        <header className="sticky top-0 z-30 flex min-h-14 items-center justify-between bg-bg/70 px-3 pt-[env(safe-area-inset-top)] backdrop-blur-xl md:static md:shrink-0 md:bg-transparent md:px-8 md:pt-4">
-          <button className="grid size-11 place-items-center rounded-full bg-surface md:hidden" onClick={() => setOpen(true)} aria-label="เปิดเมนู">
+      <div className="flex min-h-dvh min-w-0 flex-col md:min-h-0 md:overflow-hidden">
+        <header className="sticky top-0 z-30 flex min-h-14 items-center justify-between border-b border-line bg-bg/90 px-3 pt-[env(safe-area-inset-top)] backdrop-blur-md md:px-8">
+          <button className="grid size-11 place-items-center rounded-lg md:hidden" onClick={() => setOpen(true)} aria-label="เปิดเมนู">
             <Menu className="size-5" />
           </button>
           <p className="hidden text-sm text-muted md:block">วันละสองชั่วโมง · อ่าน ลงมือ ตรวจ แล้วค่อยไปต่อ</p>
-          <button className="ml-auto grid size-11 place-items-center rounded-full bg-surface md:bg-surface-2" onClick={toggleTheme} aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}>
+          <button className="ml-auto grid size-11 place-items-center rounded-lg" onClick={toggleTheme} aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}>
             {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
           </button>
         </header>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 pb-[max(2rem,env(safe-area-inset-bottom))] md:overflow-y-auto md:px-10 md:py-8">
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] md:overflow-y-auto md:px-8">
           {hydrated ? children : <p className="text-muted">กำลังเปิดสมุดความคืบหน้าบนเครื่องนี้</p>}
         </main>
       </div>

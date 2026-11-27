@@ -15,13 +15,18 @@ function MachinePage() {
     <div className="grid gap-5">
       <header className="grid gap-2">
         <Eyebrow>Ubuntu ของคุณ</Eyebrow>
-        <h1 className="text-4xl font-semibold">บนเครื่องจริง</h1>
+        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">บนเครื่องจริง</h1>
         <p className="max-w-2xl text-muted">
-          คัดลอกคำสั่งไปรันในเทอร์มินัลบน Ubuntu แล้ววางผลกลับมา แอปนี้ไม่ได้รัน Git, เชลล์ หรือ SQL ให้ และไม่ได้ติดต่อเครื่องคุณ
+          มีใบงานเชลล์ Git และ SQL ให้คัดลอกไปรันบน Ubuntu แล้ววางผลกลับมาเทียบ แอปนี้ไม่ได้รันคำสั่งเหล่านั้น ไม่มีเทอร์มินัลลับ และไม่ได้ติดต่อเครื่องคุณ
         </p>
       </header>
-      {MACHINE_TASKS.map((task) => (
-        <TaskCard key={task.id} task={task} passed={Boolean(machine?.[task.id])} onMark={markMachine} />
+      {(["shell", "git", "sql"] as const).map((tool) => (
+        <section key={tool} className="grid gap-3">
+          <h2 className="text-xl font-semibold tracking-tight">{TOOL[tool]}</h2>
+          {MACHINE_TASKS.filter((task) => task.tool === tool).map((task) => (
+            <TaskCard key={task.id} task={task} passed={Boolean(machine?.[task.id])} onMark={markMachine} />
+          ))}
+        </section>
       ))}
     </div>
   );
@@ -51,7 +56,14 @@ function TaskCard({
     <Panel className="grid gap-3">
       <p className="text-sm text-muted">{TOOL[task.tool]}</p>
       <h2 className="font-semibold">{task.title}</h2>
-      <pre className="overflow-auto rounded-md border border-line bg-bg p-3 font-mono text-sm whitespace-pre-wrap">{task.command}</pre>
+      {task.steps?.length ? (
+        <ol className="grid list-decimal gap-1 pl-5 text-sm leading-6">
+          {task.steps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      ) : null}
+      <pre className="overflow-auto rounded-2xl bg-bg/40 p-3 font-mono text-sm whitespace-pre-wrap">{task.command}</pre>
       <div className="flex flex-wrap gap-2">
         <Button type="button" variant="ghost" onClick={() => void copy()}>
           คัดลอกคำสั่ง
@@ -59,12 +71,12 @@ function TaskCard({
         {passed ? <p className="self-center text-sm text-ok">ผลที่วางมาตรงแล้ว</p> : null}
       </div>
       <label className="grid gap-1 text-sm">
-        วางผลจากเครื่องคุณ
+        วางข้อความจากเทอร์มินัล แอปเทียบตัวอักษรอย่างเดียว ไม่ได้รันคำสั่ง
         <textarea
           value={paste}
           onChange={(event) => setPaste(event.target.value)}
           rows={3}
-          className="rounded-md border border-line bg-bg p-3 font-mono text-sm"
+          className="rounded-2xl border border-line bg-bg/40 p-3 font-mono text-sm"
           aria-label={`ผลของ ${task.title}`}
         />
       </label>

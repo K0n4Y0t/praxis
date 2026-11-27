@@ -22,7 +22,7 @@ function ProgressPage() {
         <Eyebrow>ไม่นับจากปุ่มจบ</Eyebrow>
         <h1 className="text-4xl font-semibold">ความเชี่ยวชาญ</h1>
         <p className="max-w-2xl text-muted">
-          คะแนนมาจากคำถาม แล็บที่ผ่าน โจทย์ดีบักที่ไม่ได้เปิดเฉลย และหลักไมล์โครงงานที่คุณติ๊กเอง ส่วนที่ยังไม่เริ่มไม่ถูกตีเป็นศูนย์
+          คะแนนมาจากคำถาม แล็บที่ผ่าน โจทย์ดีบักที่ไม่ได้เปิดเฉลย และหลักไมล์โครงงานที่คุณติ๊กเอง ส่วนที่ยังไม่เริ่มไม่ถูกตีเป็นศูนย์ ยังไม่มีบัญชีและไม่มีการซิงก์ ความคืบหน้าอยู่เฉพาะเบราว์เซอร์เครื่องนี้ จะทำข้ามเครื่องเมื่อต้องเรียนคนละอุปกรณ์
         </p>
       </header>
       <label className="grid max-w-xs gap-2 text-sm">
@@ -41,8 +41,14 @@ function ProgressPage() {
       </label>
       <Panel>
         <h2 className="font-semibold">ภาค {semesterId} ตามสัดส่วนหลักสูตร</h2>
-        <p className="mt-2 text-3xl font-semibold tabular-nums">{assessment.total === null ? "ยังเริ่มไม่พอที่จะคิดคะแนนรวม" : `${assessment.total} / 100`}</p>
-        <p className="mt-2 text-sm text-muted">เกณฑ์ผ่านที่ตั้งไว้คือ 75 และโครงงานต้องทำของจริง ไม่ใช่แค่ข้อสอบ โครงงานยังเป็นคะแนนประเมินตนเอง</p>
+        <p className="mt-2 text-3xl font-semibold tabular-nums">{assessment.total === null ? "ยังไม่เริ่ม" : `${assessment.total} / 100`}</p>
+        <p className="mt-2 text-sm text-muted">
+          {assessment.total === null
+            ? "ยังเริ่มไม่พอที่จะคิดคะแนนรวม จึงไม่แสดงเป็น 0 เกณฑ์ผ่านคือ 75"
+            : assessment.total >= 75
+              ? "ถึงเกณฑ์ 75 โครงงานยังเป็นการติ๊กเอง ไม่ใช่คะแนนจากผู้ตรวจ"
+              : "ยังไม่ถึงเกณฑ์ 75 โครงงานยังเป็นการติ๊กเอง ไม่ใช่คะแนนจากผู้ตรวจ"}
+        </p>
         <ul className="mt-4 grid gap-3">
           {assessment.parts.map((part) => (
             <li key={part.key} className="grid gap-1 text-sm">

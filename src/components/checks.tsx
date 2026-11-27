@@ -51,9 +51,13 @@ function CheckCard({
     onAnswer(check.id, ok);
   }
 
+  const status = !attempt ? "ยังไม่ตอบ" : attempt.correct ? "ถูก" : attempt.revealed ? "เปิดคำอธิบายแล้ว" : "ยังไม่ถูก";
+
   return (
     <Panel className="grid gap-3">
-      <p className="text-xs font-medium text-muted">คำถาม {index}</p>
+      <p className="text-sm text-muted">
+        คำถาม {index} · <span className="font-semibold text-fg">{status}</span>
+      </p>
       <p className="text-[17px] leading-8 whitespace-pre-wrap">{check.prompt}</p>
       {check.kind === "mcq" ? (
         <div className="grid gap-2">
@@ -89,9 +93,9 @@ function CheckCard({
           ส่งคำตอบ
         </Button>
         {attempt && !attempt.correct && !attempt.revealed ? (
-          <p className="text-sm text-signal">ยังไม่ถูก ลองอีกครั้งโดยยังไม่ดูคำอธิบาย</p>
+          <p className="text-sm">ยังไม่ถูก ลองอีกครั้งโดยยังไม่ดูคำอธิบาย</p>
         ) : null}
-        {attempt?.correct ? <p className="text-sm text-ok">ถูก</p> : null}
+        {attempt?.correct ? <p className="text-sm">ถูก</p> : null}
       </div>
       {done ? <p className="border-t border-line pt-3 text-sm">{check.explain}</p> : null}
       {attempt?.revealed && !attempt.correct ? (

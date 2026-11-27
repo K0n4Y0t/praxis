@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getSemester, lessonsInSemester, PROJECT_MAP } from "@/lib/curriculum/index";
+import { getLesson, getSemester, lessonsInSemester, PROJECT_MAP } from "@/lib/curriculum/index";
 import { isLessonComplete, lessonMastery } from "@/lib/progress/scoring";
 import { useProgress } from "@/lib/progress/store";
 import { Eyebrow, Panel } from "@/components/ui";
@@ -36,6 +36,11 @@ function SemesterPage() {
           {lessons.map((lesson, index) => {
             const done = isLessonComplete(lesson, data);
             const mastery = lessonMastery(lesson, data);
+            const blocked = lesson.prereq.some((id) => {
+              const prior = getLesson(id);
+              return prior ? !isLessonComplete(prior, data) : false;
+            });
+            const status = done ? `เสร็จ · ${mastery}` : blocked ? "ติดบทก่อน" : "ว่าง";
             return (
               <Link key={lesson.id} to="/learn/$lessonId" params={{ lessonId: lesson.id }} className="block">
                 <Panel className="flex items-start justify-between gap-3">
@@ -44,7 +49,7 @@ function SemesterPage() {
                     <h3 className="font-semibold">{lesson.title}</h3>
                     <p className="text-sm text-muted">{lesson.en}</p>
                   </div>
-                  <p className="text-sm tabular-nums text-muted">{done ? `ผ่าน · ${mastery}` : "ยัง"}</p>
+                  <p className="shrink-0 text-sm text-muted">{status}</p>
                 </Panel>
               </Link>
             );

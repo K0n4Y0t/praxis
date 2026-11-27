@@ -28,7 +28,10 @@ function ProjectHome() {
                   <p className="text-sm text-muted">ภาค {project.semester}</p>
                   <h2 className="font-semibold">{project.title}</h2>
                 </div>
-                <p className="text-sm tabular-nums text-muted">{core} · {done}/{project.milestones.length}</p>
+                <div className="grid shrink-0 justify-items-end gap-1 text-sm">
+                  <p>{core === "แกนผ่าน" ? "ตัวตรวจ: ผ่าน" : "ตัวตรวจ: ยัง"}</p>
+                  <p className="text-muted">ติ๊กเอง {done}/{project.milestones.length}</p>
+                </div>
               </Panel>
             </Link>
           );

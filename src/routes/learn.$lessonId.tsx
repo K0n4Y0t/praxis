@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bookmark, ChevronLeft, ChevronRight, Play, RotateCcw } from "lucide-react";
+import { Bookmark, ChevronLeft, ChevronRight, Copy, Play, RotateCcw } from "lucide-react";
 import { getLesson, getSemester, lessonsInSemester, nextLesson, prevLesson } from "@/lib/curriculum/index";
 import { isLessonComplete, lessonMastery } from "@/lib/progress/scoring";
 import { useProgress } from "@/lib/progress/store";
@@ -65,7 +65,7 @@ function LessonPage() {
 
       <Pager previous={previous} following={following} />
 
-      <nav aria-label="บทในภาคนี้" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <nav aria-label="บทในภาคนี้" className="flex max-w-full gap-2 overflow-x-auto pb-1">
         {siblings.map((item) => (
           <Link
             key={item.id}
@@ -117,13 +117,16 @@ function LessonPage() {
         </div>
       </section>
 
-      <section className="grid max-w-3xl gap-8">
+      <section className="grid max-w-[70ch] gap-8">
         <h2 className="text-xl font-semibold tracking-tight">แนวคิด</h2>
-        {lesson.concept.map((block) => (
-          <div key={block.heading} className="grid gap-3">
-            <h3 className="text-lg font-semibold tracking-tight">{block.heading}</h3>
+        {lesson.concept.map((block, index) => (
+          <div key={block.heading} className="grid gap-3 border-l border-line pl-4">
+            <h3 className="text-lg font-semibold tracking-tight">
+              <span className="mr-2 text-sm font-medium text-muted">{index + 1}</span>
+              {block.heading}
+            </h3>
             {block.body.map((paragraph) => (
-              <p key={paragraph} className="text-[17px] leading-8">{paragraph}</p>
+              <p key={paragraph} className="text-[17px] leading-[1.8]">{paragraph}</p>
             ))}
           </div>
         ))}
@@ -211,8 +214,8 @@ function LessonPage() {
             </tbody>
           </table>
         </Panel>
-        <Panel className="bg-signal/8">
-          <h2 className="font-semibold">พลาดบ่อย</h2>
+        <Panel>
+          <h2 className="font-semibold">ความเข้าใจผิดที่พบบ่อย</h2>
           <ul className="mt-3 grid list-disc gap-2 pl-5 text-sm">{lesson.pitfalls.map((item) => <li key={item}>{item}</li>)}</ul>
         </Panel>
         <Panel>
@@ -252,42 +255,52 @@ function Pager({ previous, following }: { previous?: { id: string; title: string
 function TryIt({ code, note }: { code: string; note: string }) {
   const [draft, setDraft] = useState(code);
   const [output, setOutput] = useState("");
+  const [copied, setCopied] = useState(false);
 
   function run() {
     const result = runPython(draft);
     setOutput(result.error ? `${result.error.name}: ${result.error.message}` : result.stdout || "(ไม่มีข้อความออก)");
   }
 
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(draft);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  }
+
   return (
     <section className="grid gap-4">
       <div className="flex items-end justify-between gap-3">
-        <h2 className="text-xl font-semibold tracking-tight">ลองเอง</h2>
-        <p className="text-xs text-muted">แก้โค้ดแล้วรันได้ทันที</p>
+        <h2 className="text-xl font-semibold tracking-tight">ตัวอย่าง</h2>
+        <p className="text-sm text-muted">Python · แก้แล้วรันได้</p>
       </div>
-      <div className="overflow-hidden rounded-3xl bg-surface shadow-[0_16px_40px_rgba(0,0,0,0.18)] md:bg-bg/30 md:shadow-none">
-        <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-          <div className="grid gap-3 border-b border-line p-3 lg:border-r lg:border-b-0">
-            <CodeEditor value={draft} onChange={setDraft} label="โค้ดตัวอย่าง แก้แล้วรันได้" />
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" onClick={run}>
-                <Play className="size-4" aria-hidden="true" />
-                รัน
-              </Button>
-              <Button type="button" variant="ghost" onClick={() => { setDraft(code); setOutput(""); }}>
-                <RotateCcw className="size-4" aria-hidden="true" />
-                คืนโค้ดเดิม
-              </Button>
-            </div>
-          </div>
-          <div className="grid min-h-48 content-start gap-2 bg-bg/40 p-5">
-            <p className="text-xs font-medium text-muted">ผลลัพธ์</p>
-            <pre className="overflow-auto font-mono text-sm leading-6 whitespace-pre-wrap">
-              {output || "กดรัน ผลจะอยู่ฝั่งนี้"}
-            </pre>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div className="grid min-w-0 gap-3">
+          <CodeEditor value={draft} onChange={setDraft} label="โค้ดตัวอย่าง แก้แล้วรันได้" />
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" onClick={run}>
+              <Play className="size-4" aria-hidden="true" />
+              รัน
+            </Button>
+            <Button type="button" variant="ghost" onClick={() => void copy()}>
+              <Copy className="size-4" aria-hidden="true" />
+              {copied ? "คัดลอกแล้ว" : "คัดลอก"}
+            </Button>
+            <Button type="button" variant="quiet" onClick={() => { setDraft(code); setOutput(""); }}>
+              <RotateCcw className="size-4" aria-hidden="true" />
+              คืนโค้ดเดิม
+            </Button>
           </div>
         </div>
+        <div className="grid min-h-48 content-start gap-2 rounded-2xl border border-line bg-surface p-4">
+          <p className="text-sm text-muted">ผลลัพธ์</p>
+          <pre className="overflow-x-auto font-mono text-sm leading-6 whitespace-pre">{output || "กดรัน ผลจะอยู่ฝั่งนี้"}</pre>
+        </div>
       </div>
-      <p className="text-sm leading-7 text-muted">{note}</p>
+      <p className="max-w-[70ch] text-[17px] leading-[1.8]">{note}</p>
     </section>
   );
 }
